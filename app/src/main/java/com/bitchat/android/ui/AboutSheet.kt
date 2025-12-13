@@ -29,7 +29,9 @@ import androidx.compose.ui.unit.sp
 import com.bitchat.android.nostr.NostrProofOfWork
 import com.bitchat.android.nostr.PoWPreferenceManager
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bitchat.android.R
+import com.bitchat.android.core.ui.component.button.CloseButton
 import com.bitchat.android.net.TorMode
 import com.bitchat.android.net.TorPreferenceManager
 import com.bitchat.android.net.ArtiTorManager
@@ -243,7 +245,7 @@ fun AboutSheet(
                                 .padding(horizontal = 24.dp)
                                 .padding(top = 24.dp, bottom = 8.dp)
                         )
-                        val themePref by com.bitchat.android.ui.theme.ThemePreferenceManager.themeFlow.collectAsState()
+                        val themePref by com.bitchat.android.ui.theme.ThemePreferenceManager.themeFlow.collectAsStateWithLifecycle()
                         Row(
                             modifier = Modifier.padding(horizontal = 24.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -279,8 +281,8 @@ fun AboutSheet(
                             PoWPreferenceManager.init(context)
                         }
 
-                        val powEnabled by PoWPreferenceManager.powEnabled.collectAsState()
-                        val powDifficulty by PoWPreferenceManager.powDifficulty.collectAsState()
+                        val powEnabled by PoWPreferenceManager.powEnabled.collectAsStateWithLifecycle()
+                        val powDifficulty by PoWPreferenceManager.powDifficulty.collectAsStateWithLifecycle()
 
                         Column(
                             modifier = Modifier.padding(horizontal = 24.dp),
@@ -595,18 +597,12 @@ fun AboutSheet(
                         .height(64.dp)
                         .background(MaterialTheme.colorScheme.background.copy(alpha = topBarAlpha))
                 ) {
-                    TextButton(
+                    CloseButton(
                         onClick = onDismiss,
-                        modifier = Modifier
+                        modifier = modifier
                             .align(Alignment.CenterEnd)
-                            .padding(horizontal = 16.dp)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.close_plain),
-                            style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
+                            .padding(horizontal = 16.dp),
+                    )
                 }
             }
         }
